@@ -1,0 +1,117 @@
+Member:
+    UserA:
+        FirstName: UserA
+
+    UserB:
+        FirstName: UserB
+
+    UserC:
+        FirstName: UserC
+
+    UserD:
+        FirstName: UserD
+
+    UserE:
+        FirstName: UserE
+
+Group:
+    Group1:
+        Code: Group1
+        Members: =>Member.UserA
+    Group2:
+        Code: Group2
+        Members: =>Member.UserB,=>Member.UserC
+    Group3:
+        Code: Group3
+        Members: =>Member.UserD
+
+Permission:
+    adminperm:
+        Code: ADMIN
+        Group: =>Group.Group1
+        Type: 1
+
+    cmsmainperm1:
+        Code: CMS_ACCESS_CMSMain
+        Group: =>Group.Group2
+        Type: 1
+
+SiteConfig:
+    siteconfig:
+        CanCreateTopLevelType: OnlyTheseUsers
+        CanEditType: OnlyTheseUsers
+        CanViewType: Anyone
+
+SiteConfig_CreateTopLevelGroups:
+    siteconfig_createtoplevelgroups:
+        GroupID: =>Group.Group1
+        SiteConfigID: =>SiteConfig.siteconfig
+
+
+SiteConfig_EditorGroups:
+    siteconfig_editorgroups:
+        GroupID: =>Group.Group1
+        SiteConfigID: =>SiteConfig.siteconfig
+
+SiteTree:
+    Top:
+        CanEditType: Inherit
+        CanViewType: Inherit
+        Title: Top Level Page
+
+    Page1:
+        CanEditType: OnlyTheseUsers
+        CanViewType: Inherit
+        Title: Page1
+        Parent: =>SiteTree.Top
+        EditorGroups: =>Group.Group1
+        AccessOwner: =>Member.UserB
+        CustomiseUserPermissions: 1
+
+    Page2:
+        CanEditType: OnlyTheseUsers
+        CanViewType: Inherit
+        Title: Page2
+        Parent: =>SiteTree.Top
+        EditorGroups: =>Group.Group2
+
+    Page3:
+        CanEditType: Inherit
+        CanViewType: Inherit
+        Title: Page3
+        Parent: =>SiteTree.Page1
+
+    Page4:
+        CanEditType: Inherit
+        CanViewType: Inherit
+        Title: Page4
+        Parent: =>SiteTree.Page1
+        AccessOwner: =>Member.UserE
+        CustomiseUserPermissions: 1
+
+    Page5:
+        CanEditType: Inherit
+        CanViewType: Inherit
+        Title: Page5
+        Parent: =>SiteTree.Page2
+
+SiteTree_AccessGrantedUsers:
+    sitetree_accessgrantedusers_UserB_Page4:
+        MemberID: =>Member.UserB
+        PerUserAccessLevelBits: 2
+        SiteTreeID: =>SiteTree.Page4
+
+    sitetree_accessgrantedusers_UserC_Page4:
+        MemberID: =>Member.UserC
+        PerUserAccessLevelBits: 4
+        SiteTreeID: =>SiteTree.Page4
+
+    sitetree_accessgrantedusers_UserD_Page4:
+        MemberID: =>Member.UserD
+        PerUserAccessLevelBits: 8
+        SiteTreeID: =>SiteTree.Page4
+
+    sitetree_accessgrantedusers_UserE_Page1:
+        MemberID: =>Member.UserE
+        PerUserAccessLevelBits: 16
+        SiteTreeID: =>SiteTree.Page1

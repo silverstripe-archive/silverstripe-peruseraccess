@@ -1,0 +1,104 @@
+Group:
+    admins:
+        Code: administrators
+    users:
+        Code: l-users
+    owners:
+        Code: owners
+
+Member:
+    admin:
+        FirstName: Default Admin
+        Group: =>Group.admins
+
+    owner:
+        FirstName: Page owner
+        Group: =>Group.owners
+
+    user:
+        FirstName: CMS User
+        Group: =>Group.users
+
+    user2:
+        FirstName: CMS User 2
+        Group: =>Group.users
+
+Permission:
+    adminperm:
+        Code: ADMIN
+        GroupID: =>Group.admins
+        Type: 1
+
+    cmsmainperm1:
+        Code: CMS_ACCESS_CMSMain
+        GroupID: =>Group.owners
+        Type: 1
+
+    cmsmainperm2:
+        Code: CMS_ACCESS_CMSMain
+        GroupID: =>Group.users
+        Type: 1
+
+Group_Members:
+    group_members9:
+        GroupID: =>Group.admins
+        MemberID: =>Member.admin
+
+    group_members10:
+        GroupID: =>Group.users
+        MemberID: =>Member.user
+
+    group_members11:
+        GroupID: =>Group.owners
+        MemberID: =>Member.owner
+
+SiteConfig:
+    siteconfig:
+        CanCreateTopLevelType: OnlyTheseUsers
+        CanEditType: OnlyTheseUsers
+        CanViewType: LoggedInUsers
+
+SiteConfig_CreateTopLevelGroups:
+    siteconfig_createtoplevelgroups41:
+        GroupID: =>Group.admins
+        SiteConfigID: =>SiteConfig.siteconfig
+
+
+SiteConfig_EditorGroups:
+    siteconfig_editorgroups42:
+        GroupID: =>Group.admins
+        SiteConfigID: =>SiteConfig.siteconfig
+
+    siteconfig_editorgroups43:
+        GroupID: =>Group.admins
+        SiteConfigID: =>SiteConfig.siteconfig
+
+SiteTree:
+    toppage:
+        AccessOwnerID: =>Member.owner
+        CustomiseUserPermissions: 1
+        CanEditType: Inherit
+        CanViewType: Inherit
+        Title: Home
+        URLSegment: home
+
+    subpage:
+        AccessOwnerID: 
+        CanEditType: Inherit
+        CanViewType: Inherit
+        ParentID: =>SiteTree.toppage
+        URLSegment: subpage
+
+    sibling:
+        AccessOwnerID: 
+        CanEditType: Inherit
+        CanViewType: Inherit
+        ParentID: =>SiteTree.toppage
+        URLSegment: subpage
+
+
+SiteTree_AccessGrantedUsers:
+    sitetree_accessgrantedusers49:
+        MemberID: =>Member.user
+        PerUserAccessLevelBits: 255
+        SiteTreeID: =>SiteTree.toppage

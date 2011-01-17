@@ -1,0 +1,10 @@
+DogOwner:
+    Wolfgang:
+        Name: Wolfgang
+
+Dog:
+    Bello:
+        Name: Bello
+        Owner: =>DogOwner.Wolfgang
+    Pluto:
+        Name: Pluto
