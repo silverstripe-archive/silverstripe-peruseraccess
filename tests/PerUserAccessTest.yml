@@ -1,0 +1,113 @@
+Member:
+    UserA:
+        FirstName: UserA
+
+    UserB:
+        FirstName: UserB
+
+    UserC:
+        FirstName: UserC
+
+    UserD:
+        FirstName: UserD
+
+    UserE:
+        FirstName: UserE
+
+Group:
+    Group1:
+        Code: Group1
+        Members: =>Member.UserA,=>Member.UserB
+    Group2:
+        Code: Group2
+        Members: =>Member.UserC,=>Member.UserD
+    Group3:
+        Code: Group3
+        Members: =>Member.UserE
+
+Permission:
+    adminperm:
+        Code: ADMIN
+        Group: =>Group.Group1
+        Type: 1
+
+    cmsmainperm1:
+        Code: CMS_ACCESS_CMSMain
+        Group: =>Group.Group2
+        Type: 1
+
+    cmsmainperm2:
+        Code: CMS_ACCESS_CMSMain
+        Group: =>Group.Group2
+        Type: 1
+
+SiteConfig:
+    siteconfig:
+        CanCreateTopLevelType: OnlyTheseUsers
+        CanEditType: OnlyTheseUsers
+        CanViewType: LoggedInUsers
+
+SiteConfig_CreateTopLevelGroups:
+    siteconfig_createtoplevelgroups:
+        GroupID: =>Group.Group1
+        SiteConfigID: =>SiteConfig.siteconfig
+
+
+SiteConfig_EditorGroups:
+    siteconfig_editorgroups1:
+        GroupID: =>Group.Group1
+        SiteConfigID: =>SiteConfig.siteconfig
+
+    siteconfig_editorgroups2:
+        GroupID: =>Group.Group1
+        SiteConfigID: =>SiteConfig.siteconfig
+
+SiteTree:
+    Top:
+        CanEditType: Inherit
+        CanViewType: Inherit
+        Title: Top Level Page
+
+    Page1:
+        CanEditType: Inherit
+        CanViewType: Inherit
+        Title: Page1
+        Parent: =>SiteTree.Top
+        EditorGroups: =>Group.Group1
+
+    Page2:
+        CanEditType: Inherit
+        CanViewType: Inherit
+        Title: Page2
+        Parent: =>SiteTree.Top
+        EditorGroups: =>Group.Group2
+
+    Page3:
+        CanEditType: Inherit
+        CanViewType: Inherit
+        Title: Page3
+        Parent: =>SiteTree.Top
+        AccessOwner: =>Member.UserC
+        EditorGroups: =>Group.Group1
+
+    Page4:
+        CanEditType: Inherit
+        CanViewType: Inherit
+        Title: Page4
+        Parent: =>SiteTree.Top
+        AccessOwner: =>Member.UserC
+        EditorGroups: =>Group.Group1
+
+    Page5:
+        CanEditType: Inherit
+        CanViewType: Inherit
+        Title: Page5
+        Parent: =>SiteTree.Top
+        AccessOwner: =>Member.UserC
+        EditorGroups: =>Group.Group1
+
+SiteTree_AccessGrantedUsers:
+    sitetree_accessgrantedusers_UserC_Page1:
+        MemberID: =>Member.UserE
+        PerUserAccessLevelBits: 31
+        SiteTreeID: =>SiteTree.Page4
